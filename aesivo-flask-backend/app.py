@@ -1,5 +1,7 @@
-from flask import Flask, render_template, jsonify
-from flask_cors import CORS
+import os
+
+from flask import Flask, render_template, jsonify  # type: ignore
+from flask_cors import CORS  # type: ignore
 
 # ROUTES
 from routes.auth_routes import auth_bp
@@ -133,7 +135,8 @@ def health():
 # RUN APP
 # =========================
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
 
 
     
