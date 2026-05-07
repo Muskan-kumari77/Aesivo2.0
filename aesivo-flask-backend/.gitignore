@@ -1,0 +1,27 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# Environment variables
+.env
+
+# Virtual environment
+venv/
+env/
+
+# Database temporary files
+*.db-journal
+*.sqlite3-journal
+
+# Uploads (optional)
+uploads/
+
+# VS Code
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>AESIVO | Orders</title>
+
+<link rel="stylesheet" href="/static/css/style.css">
+
+<style>
+.orders-page {
+  padding: 40px;
+}
+
+.order-card {
+  background: white;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+}
+
+.order-items {
+  margin-top: 10px;
+}
+
+.order-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.status {
+  padding: 5px 10px;
+  border-radius: 5px;
+  display: inline-block;
+}
+
+.status.Placed { background: #eee; }
+.status.Shipped { background: #cce5ff; }
+.status.Delivered { background: #d4edda; }
+
+.empty {
+  text-align: center;
+  padding: 50px;
+}
+</style>
+
+</head>
+
+<body>
+
+<header class="header">
+<div class="nav-container">
+<div class="logo">AESIVO</div>
+
+<nav class="nav-menu">
+<a href="/">Home</a>
+<a href="/collection">Collection</a>
+<a href="/about">About</a>
+<a href="/contact">Contact</a>
+</nav>
+
+<div class="nav-actions">
+<a href="/account">Account</a>
+<a href="/cart">Cart</a>
+</div>
+</div>
+</header>
+
+
+<section class="orders-page">
+
+<h1>Your Orders</h1>
+
+<div id="ordersContainer">Loading...</div>
+
+</section>
+
+
+<script>
+
+/* ===== AUTH CHECK ===== */
+const token = localStorage.getItem("token");
+
+if (!token) {
+  alert("Please login first");
+  window.location.href = "/account";
+}
+
+
+/* ===== LOAD ORDERS ===== */
+async function loadOrders() {
+
+  const container = document.getElementById("ordersContainer");
+
+  try {
+    const res = await fetch("/api/orders/", {
+      headers: {
+        "Authorization": "Bearer " + token
+      }
+    });
+
+    if (!res.ok) {
+      container.innerHTML = "Failed to load orders";
+      return;
+    }
+
+    const orders = await res.json();
+
+    if (!orders.length) {
+      container.innerHTML = `<div class="empty">No orders yet</div>`;
+      return;
+    }
+
+    container.innerHTML = "";
+
+    orders.forEach(order => {
+
+      let itemsHTML = "";
+
+      order.items.forEach(item => {
+        itemsHTML += `
+          <div class="order-item">
+            <span>${item.name} x${item.quantity}</span>
+            <span>₹${item.price * item.quantity}</span>
+          </div>
+        `;
+      });
+
+      container.innerHTML += `
+        <div class="order-card">
+          <h3>Order #${order.order_id}</h3>
+          <p>Date: ${new Date(order.created_at).toLocaleString()}</p>
+          <p>Status: <span class="status ${order.status}">${order.status}</span></p>
+
+          <div class="order-items">
+            ${itemsHTML}
+          </div>
+
+          <hr>
+
+          <h3>Total: ₹${order.total_price}</h3>
+        </div>
+      `;
+    });
+
+  } catch (err) {
+    console.error(err);
+    container.innerHTML = "Server error";
+  }
+}
+
+
+/* INIT */
+loadOrders();
+
+</script>
+
+</body>
+</html>

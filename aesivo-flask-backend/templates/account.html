@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>AESIVO | Account</title>
+
+<link rel="stylesheet" href="/static/css/style.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+<header class="header">
+<div class="nav-container">
+<div class="logo">AESIVO</div>
+
+<nav class="nav-menu">
+<a href="/">Home</a>
+<a href="/collection">Collection</a>
+<a href="/men">Men</a>
+<a href="/women">Women</a>
+<a href="/about">About</a>
+<a href="/contact">Contact</a>
+</nav>
+
+<div class="nav-actions">
+<a href="/account">Account</a>
+<a href="/cart">Cart</a>
+</div>
+</div>
+</header>
+
+
+<section class="account-page">
+
+<h1 class="account-title">My Account</h1>
+
+<div class="account-layout">
+
+<!-- SIDEBAR -->
+<div class="account-sidebar">
+<button class="account-tab active" onclick="openTab(event,'login')">Login</button>
+<button class="account-tab" onclick="openTab(event,'register')">Register</button>
+<button class="account-tab" onclick="openTab(event,'profile')">Profile</button>
+</div>
+
+
+<!-- CONTENT -->
+<div>
+
+<!-- LOGIN -->
+<div id="login" class="account-panel active">
+<h2>Login</h2>
+<input type="email" id="loginEmail" placeholder="Email">
+<input type="password" id="loginPassword" placeholder="Password">
+<button class="account-btn" onclick="login()">Login</button>
+</div>
+
+<!-- REGISTER -->
+<div id="register" class="account-panel">
+<h2>Create Account</h2>
+<input type="text" id="regName" placeholder="Full Name">
+<input type="email" id="regEmail" placeholder="Email">
+<input type="password" id="regPassword" placeholder="Password">
+<button class="account-btn" onclick="register()">Register</button>
+</div>
+
+<!-- PROFILE -->
+<div id="profile" class="account-panel">
+
+<h2>User Profile</h2>
+<p id="userInfo">Loading...</p>
+
+<hr>
+
+<h3>Edit Profile</h3>
+<input type="text" id="editName">
+<input type="email" id="editEmail">
+<button class="account-btn" onclick="updateProfile()">Update Profile</button>
+
+<hr>
+
+<h3>Change Password</h3>
+<input type="password" id="newPassword">
+<button class="account-btn" onclick="changePassword()">Change Password</button>
+
+<hr>
+
+<button class="account-btn" onclick="logout()">Logout</button>
+
+</div>
+
+</div>
+</div>
+</section>
+
+
+<footer>
+<div class="footer-container">
+
+<div>
+<h3>Company</h3>
+<a href="/about">About</a>
+<a href="/contact">Contact</a>
+</div>
+
+<div>
+<h3>Account</h3>
+<a href="/account">My Account</a>
+<a href="/orders">Orders</a>
+<a href="/cart">Cart</a>
+</div>
+
+</div>
+</footer>
+
+
+<script>
+
+/* ===== AUTH STATE ===== */
+function isLoggedIn() {
+  return !!localStorage.getItem("token");
+}
+
+
+/* ===== TAB CONTROL ===== */
+function openTab(evt, tabName) {
+  document.querySelectorAll(".account-panel").forEach(p => p.classList.remove("active"));
+  document.querySelectorAll(".account-tab").forEach(t => t.classList.remove("active"));
+
+  document.getElementById(tabName).classList.add("active");
+
+  if (evt) evt.target.classList.add("active");
+}
+
+
+/* ===== REGISTER ===== */
+async function register() {
+  const name = regName.value;
+  const email = regEmail.value;
+  const password = regPassword.value;
+
+  const res = await fetch("/api/auth/register", {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({ name, email, password })
+  });
+
+  const data = await res.json();
+
+  if (res.ok) {
+    alert("Registered successfully! Please login.");
+    openTab(null, "login");
+  } else {
+    alert(data.error || "User already exists");
+  }
+}
+
+
+/* ===== LOGIN ===== */
+async function login() {
+  const email = loginEmail.value;
+  const password = loginPassword.value;
+
+  const res = await fetch("/api/auth/login", {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({ email, password })
+  });
+
+  const data = await res.json();
+
+  if (res.ok && data.token) {
+    localStorage.setItem("token", data.token);
+    localStorage.setItem("role", data.user.role);
+
+    alert("Login successful");
+
+    loadProfile();
+  } else {
+    alert(data.error || "Invalid email or password");
+  }
+}
+
+
+/* ===== LOAD PROFILE ===== */
+async function loadProfile() {
+
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    openTab(null, "login");
+    return;
+  }
+
+  const res = await fetch("/api/auth/me", {
+    headers: {
+      "Authorization": "Bearer " + token
+    }
+  });
+
+  if (!res.ok) {
+    logout();
+    return;
+  }
+
+  const user = await res.json();
+
+  userInfo.innerHTML = `
+    <strong>Name:</strong> ${user.name}<br>
+    <strong>Email:</strong> ${user.email}
+  `;
+
+  editName.value = user.name;
+  editEmail.value = user.email;
+
+  openTab(null, "profile");
+}
+
+
+/* ===== UPDATE PROFILE ===== */
+async function updateProfile() {
+  const token = localStorage.getItem("token");
+
+  const res = await fetch("/api/auth/update", {
+    method: "PUT",
+    headers: {
+      "Content-Type":"application/json",
+      "Authorization":"Bearer " + token
+    },
+    body: JSON.stringify({
+      name: editName.value,
+      email: editEmail.value
+    })
+  });
+
+  const data = await res.json();
+
+  if (res.ok) {
+    alert("Profile updated");
+    loadProfile();
+  } else {
+    alert(data.error);
+  }
+}
+
+
+/* ===== CHANGE PASSWORD ===== */
+async function changePassword() {
+  const token = localStorage.getItem("token");
+
+  const res = await fetch("/api/auth/password", {
+    method: "PUT",
+    headers: {
+      "Content-Type":"application/json",
+      "Authorization":"Bearer " + token
+    },
+    body: JSON.stringify({
+      password: newPassword.value
+    })
+  });
+
+  const data = await res.json();
+
+  if (res.ok) {
+    alert("Password updated");
+  } else {
+    alert(data.error);
+  }
+}
+
+
+/* ===== LOGOUT ===== */
+function logout() {
+  localStorage.removeItem("token");
+  localStorage.removeItem("role");
+
+  alert("Logged out");
+  openTab(null, "login");
+}
+
+
+/* ===== INIT ===== */
+window.onload = () => {
+  if (isLoggedIn()) {
+    loadProfile();
+  } else {
+    openTab(null, "login");
+  }
+};
+
+
+
+</script>
+</body>
+</html>

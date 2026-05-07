@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<title>AESIVO Admin</title>
+
+<link rel="stylesheet" href="/static/css/style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+
+body {
+  background: radial-gradient(circle at top, #1a1a1a, #000);
+  color: white;
+  font-family: 'Poppins', sans-serif;
+}
+
+.admin-container {
+  padding: 40px;
+}
+
+h1 {
+  font-size: 32px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-bottom: 40px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+th {
+  text-transform: uppercase;
+  font-size: 12px;
+  color: #aaa;
+  letter-spacing: 1px;
+}
+
+td {
+  padding: 12px 8px;
+}
+
+tr:hover {
+  background: rgba(255,255,255,0.03);
+}
+.card {
+  background: #1a1a1a;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+.grid {
+  display: flex;
+  gap: 20px;
+}
+
+.stat h2 {
+  font-size: 40px;
+  font-weight: 600;
+  margin-top: 10px;
+  color: #ffffff;
+  text-shadow: 0 0 10px rgba(255,255,255,0.2);
+}
+
+.stat h3 {
+  font-size: 14px;
+  letter-spacing: 1px;
+  color: #aaa;
+  text-transform: uppercase;
+}
+
+table {
+  width: 100%;
+  margin-top: 10px;
+}
+
+th, td {
+  padding: 10px;
+  border-bottom: 1px solid #333;
+}
+
+select, button {
+  background: #222;
+  color: white;
+  border: none;
+  padding: 6px;
+  border-radius: 5px;
+}
+
+button {
+  background: #e63946;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #ff4d5a;
+} 
+/* FADE IN PAGE */
+body {
+  animation: fadeIn 0.6s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* CARD ANIMATION */
+.card {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 25px;
+  margin-bottom: 25px;
+  border: 1px solid rgba(255,255,255,0.08);
+
+  box-shadow:
+    0 10px 40px rgba(0,0,0,0.6),
+    inset 0 0 20px rgba(255,255,255,0.02);
+
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow:
+    0 20px 60px rgba(0,0,0,0.8),
+    0 0 20px rgba(255,255,255,0.05);
+}
+
+/* BUTTON HOVER */
+button:hover {
+  transform: scale(1.05);
+  transition: 0.2s;
+}
+.layout {
+  display: flex;
+}
+
+.sidebar {
+  width: 220px;
+  height: 100vh;
+  background: #0a0a0a;
+  padding: 30px 20px;
+  border-right: 1px solid #222;
+}
+
+.sidebar h2 {
+  margin-bottom: 40px;
+  letter-spacing: 2px;
+}
+
+.sidebar a {
+  display: block;
+  padding: 12px;
+  margin-bottom: 10px;
+  color: #aaa;
+  text-decoration: none;
+  border-radius: 6px;
+}
+
+.sidebar a:hover {
+  background: #111;
+  color: white;
+}
+
+.admin-container {
+  flex: 1;
+  padding: 40px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <h2>AESIVO</h2>
+
+    <a href="#" onclick="showSection('dashboard')">Dashboard</a>
+    <a href="#" onclick="showSection('orders')">Orders</a>
+    <a href="#" onclick="showSection('contacts')">Contacts</a>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="admin-container">
+    </div>
+</div>
+
+<h1>Admin Dashboard</h1>
+
+<!-- STATS -->
+<div class="grid">
+
+<div class="grid">
+
+<div class="card stat">
+<h3>Total Users</h3>
+<h2 id="users">0</h2>
+</div>
+
+<div class="card stat">
+<h3>Total Orders</h3>
+<h2 id="orders">0</h2>
+</div>
+
+<div class="card stat">
+<h3>Total Contacts</h3>
+<h2 id="contacts">0</h2>
+</div>
+<div class="card">
+  <h2>Sales Overview</h2>
+  <canvas id="salesChart" height="100"></canvas>
+</div>
+</div>
+
+<!-- CONTACTS -->
+<div class="card">
+<h2>Contact Messages</h2>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Email</th>
+<th>Message</th>
+<th>Category</th>
+</tr>
+</thead>
+
+<tbody id="contactTable"></tbody>
+</table>
+
+</div>
+
+<!-- ORDERS -->
+<div class="card">
+<h2>Orders</h2>
+
+<table>
+<thead>
+<tr>
+<th>User</th>
+<th>Total</th>
+<th>Status</th>
+</tr>
+</thead>
+
+<tbody id="orderTable"></tbody>
+</table>
+
+</div>
+
+</div>
+
+
+<script>
+
+const pass = prompt("Enter admin password:");
+
+if (pass !== "admin123") {
+  alert("Access denied");
+  window.location.href = "/";
+}
+
+// LOAD STATS
+async function loadStats() {
+  const res = await fetch("/api/admin/stats");
+  const data = await res.json();
+
+  animateValue("users", 0, data.users, 800);
+  animateValue("orders", 0, data.orders, 800);
+  animateValue("contacts", 0, data.contacts, 800);
+}
+
+
+// LOAD CONTACTS
+async function loadContacts() {
+  const res = await fetch("/api/admin/contacts");
+  const data = await res.json();
+
+  const table = document.getElementById("contactTable");
+  table.innerHTML = "";
+  setInterval(loadContacts, 5000);
+  data.forEach(c => {
+    table.innerHTML += `
+      <tr>
+        <td>${c.name}</td>
+        <td>${c.email}</td>
+        <td>${c.message}</td>
+        <td>${c.category || "general"}</td>
+        <td>
+          <button onclick="deleteContact(${c.id})">Delete</button>
+        </td>
+      </tr>
+    `;
+  });
+}
+
+async function deleteContact(id) {
+  if (!confirm("Delete this message?")) return;
+
+  await fetch(`/api/admin/contacts/delete/${id}`, {
+    method: "DELETE"
+  });
+
+  loadContacts();
+}
+
+async function loadOrders() {
+  const res = await fetch("/api/admin/orders");
+  const data = await res.json();
+
+  const table = document.getElementById("orderTable");
+  table.innerHTML = "";
+
+  data.forEach(o => {
+    table.innerHTML += `
+      <tr>
+        <td>${o.user_id}</td>
+        <td>${o.total_price || "-"}</td>
+
+        <td>
+          <select onchange="updateStatus(${o.id}, this.value)">
+            <option ${o.status==="pending"?"selected":""}>pending</option>
+            <option ${o.status==="processing"?"selected":""}>processing</option>
+            <option ${o.status==="shipped"?"selected":""}>shipped</option>
+            <option ${o.status==="delivered"?"selected":""}>delivered</option>
+          </select>
+        </td>
+      </tr>
+    `;
+  });
+}
+async function updateStatus(orderId, status) {
+  await fetch(`/api/admin/orders/update/${orderId}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ status })
+  });
+
+  alert("Order updated!");
+}
+async function loadSalesChart() {
+  const res = await fetch("/api/admin/sales");
+  const data = await res.json();
+
+  const labels = data.map(d => d.date);
+  const values = data.map(d => d.total);
+
+  const ctx = document.getElementById("salesChart").getContext("2d");
+
+  new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: labels,
+      datasets: [{
+        label: "Sales ₹",
+        data: values,
+        borderColor: "#ffffff",
+        backgroundColor: "rgba(255,255,255,0.05)",
+        pointBackgroundColor: "#ffffff",
+        borderWidth: 2,
+        tension: 0.4
+}]
+
+    },
+    options: {
+  animation: {
+    duration: 1200,
+    easing: "easeOutQuart"
+  },
+  plugins: {
+    legend: {
+      labels: { color: "white" }
+    }
+  },
+  scales: {
+    x: { ticks: { color: "white" } },
+    y: { ticks: { color: "white" } }
+  }
+}
+  });
+}
+loadStats();
+loadContacts();
+loadOrders();
+loadSalesChart();
+
+function animateValue(id, start, end, duration) {
+  let range = end - start;
+  let current = start;
+  let increment = end > start ? 1 : -1;
+  let stepTime = Math.abs(Math.floor(duration / range));
+
+  let obj = document.getElementById(id);
+
+  let timer = setInterval(() => {
+    current += increment;
+    obj.innerText = current;
+    if (current == end) {
+      clearInterval(timer);
+    }
+ }, stepTime);
+}
+function showSection(section) {
+  document.getElementById("dashboardSection").style.display = "none";
+  document.getElementById("ordersSection").style.display = "none";
+  document.getElementById("contactsSection").style.display = "none";
+
+  document.getElementById(section + "Section").style.display = "block";
+}
+</script>
+
+</body>
+</html>

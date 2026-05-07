@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>AESIVO | Secure Checkout</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<style>
+
+/* =========================================
+BASE
+========================================= */
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:'Poppins',sans-serif;
+background:#f5f0ea;
+color:#111;
+overflow-x:hidden;
+}
+
+button,
+input{
+font-family:'Poppins',sans-serif;
+outline:none;
+}
+
+/* =========================================
+HEADER
+========================================= */
+
+.header{
+position:sticky;
+top:0;
+z-index:999;
+background:#050505;
+border-bottom:1px solid rgba(255,255,255,.06);
+}
+
+.nav-container{
+max-width:1450px;
+margin:auto;
+padding:22px 5%;
+
+display:flex;
+align-items:center;
+justify-content:space-between;
+}
+
+.logo{
+font-size:2rem;
+font-family:'Playfair Display',serif;
+letter-spacing:.18em;
+color:#f5f0ea;
+}
+
+.nav-menu{
+display:flex;
+gap:40px;
+}
+
+.nav-menu a,
+.nav-actions a{
+text-decoration:none;
+font-size:.82rem;
+text-transform:uppercase;
+letter-spacing:.12em;
+color:rgba(255,255,255,.72);
+}
+
+.nav-actions{
+display:flex;
+gap:24px;
+}
+
+/* =========================================
+PAGE HERO
+========================================= */
+
+.checkout-hero{
+background:#050505;
+padding:70px 5%;
+text-align:center;
+}
+
+.checkout-subtitle{
+font-size:.72rem;
+letter-spacing:.28em;
+text-transform:uppercase;
+color:#d8c2a8;
+margin-bottom:14px;
+}
+
+.checkout-title{
+font-size:4rem;
+font-family:'Playfair Display',serif;
+color:white;
+}
+
+/* =========================================
+LAYOUT
+========================================= */
+
+.checkout-wrapper{
+max-width:1450px;
+margin:auto;
+padding:60px 5% 100px;
+
+display:grid;
+grid-template-columns:1fr 430px;
+gap:40px;
+align-items:start;
+}
+
+/* =========================================
+FORM
+========================================= */
+
+.checkout-card{
+background:white;
+
+padding:45px;
+
+border-radius:32px;
+
+box-shadow:
+0 10px 35px rgba(0,0,0,.06);
+}
+
+.section-title{
+font-size:2rem;
+font-family:'Playfair Display',serif;
+margin-bottom:30px;
+}
+
+.form-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:22px;
+}
+
+.input-group{
+margin-bottom:22px;
+}
+
+.input-group.full{
+grid-column:1/-1;
+}
+
+.input-group label{
+display:block;
+font-size:.82rem;
+font-weight:500;
+margin-bottom:10px;
+color:#555;
+}
+
+.input-group input{
+width:100%;
+height:58px;
+
+border-radius:16px;
+
+border:1px solid rgba(0,0,0,.08);
+
+padding:0 18px;
+
+font-size:.95rem;
+
+background:#faf8f5;
+}
+
+/* =========================================
+PAYMENT
+========================================= */
+
+.payment-section{
+margin-top:40px;
+}
+
+.payment-options{
+display:flex;
+flex-direction:column;
+gap:18px;
+margin-top:25px;
+}
+
+.payment-card{
+display:flex;
+align-items:center;
+gap:18px;
+
+padding:22px;
+
+border-radius:20px;
+
+border:1px solid rgba(0,0,0,.08);
+
+cursor:pointer;
+
+transition:.3s ease;
+}
+
+.payment-card:hover{
+border-color:#111;
+}
+
+.payment-card input{
+transform:scale(1.2);
+}
+
+.payment-title{
+font-weight:600;
+margin-bottom:4px;
+}
+
+.payment-desc{
+font-size:.82rem;
+color:#777;
+}
+
+/* =========================================
+SUMMARY
+========================================= */
+
+.summary-card{
+background:white;
+
+padding:38px;
+
+border-radius:32px;
+
+position:sticky;
+top:110px;
+
+box-shadow:
+0 10px 35px rgba(0,0,0,.06);
+}
+
+.summary-title{
+font-size:2rem;
+font-family:'Playfair Display',serif;
+margin-bottom:30px;
+}
+
+.summary-items{
+display:flex;
+flex-direction:column;
+gap:18px;
+margin-bottom:35px;
+}
+
+.summary-product{
+display:flex;
+justify-content:space-between;
+gap:20px;
+
+padding-bottom:16px;
+
+border-bottom:1px solid rgba(0,0,0,.06);
+}
+
+.summary-product-name{
+font-size:.92rem;
+line-height:1.7;
+}
+
+.summary-product-price{
+font-weight:600;
+white-space:nowrap;
+}
+
+.summary-row{
+display:flex;
+justify-content:space-between;
+
+padding:16px 0;
+
+border-bottom:1px solid rgba(0,0,0,.08);
+
+font-size:.94rem;
+}
+
+.summary-total{
+display:flex;
+justify-content:space-between;
+
+padding:30px 0;
+
+font-size:1.5rem;
+font-weight:600;
+}
+
+.summary-total span:last-child{
+font-family:'Playfair Display',serif;
+}
+
+/* =========================================
+BUTTON
+========================================= */
+
+.place-order-btn{
+width:100%;
+height:64px;
+
+border:none;
+
+border-radius:18px;
+
+background:#111;
+color:white;
+
+font-size:.9rem;
+font-weight:600;
+
+letter-spacing:.14em;
+text-transform:uppercase;
+
+cursor:pointer;
+
+transition:.35s ease;
+}
+
+.place-order-btn:hover{
+background:#222;
+transform:translateY(-2px);
+}
+
+/* =========================================
+SECURE BOX
+========================================= */
+
+.secure-box{
+margin-top:28px;
+
+padding:20px;
+
+border-radius:18px;
+
+background:#faf8f5;
+
+font-size:.85rem;
+
+line-height:1.8;
+
+color:#666;
+}
+
+/* =========================================
+RESPONSIVE
+========================================= */
+
+@media(max-width:1100px){
+
+.checkout-wrapper{
+grid-template-columns:1fr;
+}
+
+.summary-card{
+position:relative;
+top:auto;
+}
+
+}
+
+@media(max-width:768px){
+
+.checkout-title{
+font-size:2.8rem;
+}
+
+.form-grid{
+grid-template-columns:1fr;
+}
+
+.checkout-card,
+.summary-card{
+padding:28px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header class="header">
+
+<div class="nav-container">
+
+<div class="logo">
+AESIVO
+</div>
+
+<nav class="nav-menu">
+<a href="/">Home</a>
+<a href="/collection">Collection</a>
+<a href="/about">About</a>
+<a href="/contact">Contact</a>
+</nav>
+
+<div class="nav-actions">
+<a href="/account">Account</a>
+<a href="/cart">Cart</a>
+</div>
+
+</div>
+
+</header>
+
+<section class="checkout-hero">
+
+<div class="checkout-subtitle">
+AESIVO SECURE PAYMENT
+</div>
+
+<h1 class="checkout-title">
+Luxury Checkout
+</h1>
+
+</section>
+
+<section class="checkout-wrapper">
+
+<!-- LEFT -->
+
+<div class="checkout-card">
+
+<h2 class="section-title">
+Shipping Details
+</h2>
+
+<div class="form-grid">
+
+<div class="input-group">
+<label>Full Name</label>
+<input type="text" id="name">
+</div>
+
+<div class="input-group">
+<label>Phone Number</label>
+<input type="text" id="phone">
+</div>
+
+<div class="input-group full">
+<label>Address</label>
+<input type="text" id="address">
+</div>
+
+<div class="input-group">
+<label>City</label>
+<input type="text" id="city">
+</div>
+
+<div class="input-group">
+<label>ZIP Code</label>
+<input type="text" id="zip">
+</div>
+
+</div>
+
+<div class="payment-section">
+
+<h2 class="section-title">
+Payment Method
+</h2>
+
+<div class="payment-options">
+
+<label class="payment-card">
+
+<input
+type="radio"
+name="payment"
+value="cod"
+checked
+>
+
+<div>
+
+<div class="payment-title">
+Cash On Delivery
+</div>
+
+<div class="payment-desc">
+Pay securely after receiving your order.
+</div>
+
+</div>
+
+</label>
+
+<label class="payment-card">
+
+<input
+type="radio"
+name="payment"
+value="online"
+>
+
+<div>
+
+<div class="payment-title">
+Online Payment
+</div>
+
+<div class="payment-desc">
+Pay using Razorpay secure gateway.
+</div>
+
+</div>
+
+</label>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- RIGHT -->
+
+<div class="summary-card">
+
+<h2 class="summary-title">
+Order Summary
+</h2>
+
+<div
+class="summary-items"
+id="summaryItems"
+>
+</div>
+
+<div class="summary-row">
+<span>Shipping</span>
+<span style="color:#0d7a36;">
+Free
+</span>
+</div>
+
+<div class="summary-row">
+<span>Taxes</span>
+<span>Included</span>
+</div>
+
+<div class="summary-total">
+<span>Total</span>
+<span id="total">
+₹0
+</span>
+</div>
+
+<button
+class="place-order-btn"
+onclick="placeOrder()"
+>
+Complete Order
+</button>
+
+<div class="secure-box">
+🔒 Secure encrypted payment powered by
+AESIVO & Razorpay technology.
+</div>
+
+</div>
+
+</section>
+
+<script>
+
+const token =
+localStorage.getItem("token");
+
+if(!token){
+
+alert("Please login first");
+
+window.location.href =
+"/account";
+
+}
+
+let cartItems = [];
+
+/* =========================================
+LOAD CART
+========================================= */
+
+async function loadSummary(){
+
+const res =
+await fetch("/api/cart/",{
+
+headers:{
+"Authorization":"Bearer "+token
+}
+
+});
+
+const data =
+await res.json();
+
+cartItems = data;
+
+const container =
+document.getElementById(
+"summaryItems"
+);
+
+let total = 0;
+
+container.innerHTML = "";
+
+data.forEach(item=>{
+
+const lineTotal =
+item.price * item.quantity;
+
+total += lineTotal;
+
+container.innerHTML += `
+
+<div class="summary-product">
+
+<div class="summary-product-name">
+${item.name} × ${item.quantity}
+</div>
+
+<div class="summary-product-price">
+₹${lineTotal}
+</div>
+
+</div>
+
+`;
+
+});
+
+document.getElementById(
+"total"
+).innerText = `₹${total}`;
+
+}
+
+/* =========================================
+PLACE ORDER
+========================================= */
+
+async function placeOrder(){
+
+const payment =
+document.querySelector(
+'input[name="payment"]:checked'
+).value;
+
+const total =
+cartItems.reduce(
+(t,i)=>t+i.price*i.quantity,
+0
+);
+
+if(payment === "cod"){
+
+createOrderBackend(
+total,
+"COD"
+);
+
+return;
+
+}
+
+/* =========================================
+RAZORPAY
+========================================= */
+
+const res =
+await fetch(
+"/api/payment/create-order",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+amount:total
+})
+
+});
+
+const order =
+await res.json();
+
+const options = {
+
+key:"rzp_test_SmZH8R2cfV0Mz8",
+
+amount:order.amount,
+
+currency:"INR",
+
+name:"AESIVO",
+
+description:"Luxury Fashion Order",
+
+order_id:order.id,
+
+handler:function(response){
+
+createOrderBackend(
+total,
+"ONLINE",
+response.razorpay_payment_id
+);
+
+},
+
+theme:{
+color:"#111"
+}
+
+};
+
+const rzp =
+new Razorpay(options);
+
+rzp.open();
+
+}
+
+/* =========================================
+BACKEND ORDER
+========================================= */
+
+async function createOrderBackend(
+total,
+method,
+paymentId=null
+){
+
+const orderData = {
+
+items:cartItems,
+
+total_price:total,
+
+payment_method:method,
+
+payment_id:paymentId
+
+};
+
+const res =
+await fetch("/api/orders/",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json",
+"Authorization":"Bearer "+token
+},
+
+body:JSON.stringify(orderData)
+
+});
+
+if(res.ok){
+
+await fetch("/api/cart/clear",{
+
+method:"DELETE",
+
+headers:{
+"Authorization":"Bearer "+token
+}
+
+});
+
+alert("Order placed successfully!");
+
+window.location.href =
+"/orders";
+
+}
+
+else{
+
+alert("Order failed");
+
+}
+
+}
+
+loadSummary();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>AESIVO | Women's Collection</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+  --black:#0a0a0a;
+  --white:#ffffff;
+  --cream:#f8f4ef;
+  --rose:#e7d4d1;
+  --gold:#c9a84c;
+  --gold-light:#e9c975;
+  --muted:#6b6560;
+  --border:#e2ddd6;
+
+  --font-head:'Playfair Display',serif;
+  --font-body:'Poppins',sans-serif;
+  --font-mono:'DM Mono',monospace;
+
+  --transition:0.35s cubic-bezier(.4,0,.2,1);
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:var(--font-body);
+  background:var(--white);
+  color:var(--black);
+  overflow-x:hidden;
+}
+
+a{
+  text-decoration:none;
+  color:inherit;
+}
+
+img{
+  width:100%;
+  display:block;
+}
+
+button{
+  border:none;
+  outline:none;
+  cursor:pointer;
+  font-family:var(--font-body);
+}
+
+/* =========================
+HEADER
+========================= */
+
+.header{
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:var(--black);
+}
+
+.nav-container{
+  max-width:1400px;
+  margin:auto;
+  padding:0 40px;
+  height:72px;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.logo{
+  color:var(--white);
+  font-family:var(--font-head);
+  font-size:1.7rem;
+  letter-spacing:.12em;
+}
+
+.nav-menu{
+  display:flex;
+  gap:36px;
+}
+
+.nav-menu a{
+  color:rgba(255,255,255,.65);
+  font-size:.82rem;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  transition:var(--transition);
+}
+
+.nav-menu a:hover,
+.nav-menu a.active{
+  color:var(--gold);
+}
+
+.nav-actions{
+  display:flex;
+  align-items:center;
+  gap:24px;
+}
+
+.nav-actions a{
+  color:rgba(255,255,255,.65);
+  font-size:.82rem;
+  text-transform:uppercase;
+  transition:var(--transition);
+}
+
+.nav-actions a:hover{
+  color:var(--white);
+}
+
+.cart-count{
+  width:18px;
+  height:18px;
+  background:var(--gold);
+  color:black;
+  border-radius:50%;
+  font-size:.65rem;
+
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* =========================
+HERO
+========================= */
+
+.collection-hero{
+  background:var(--black);
+  padding:110px 40px 90px;
+  position:relative;
+  overflow:hidden;
+}
+
+.collection-hero::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:
+  radial-gradient(circle at 70% 40%,
+  rgba(201,168,76,.12),
+  transparent 60%);
+}
+
+.hero-inner{
+  max-width:1400px;
+  margin:auto;
+  position:relative;
+  z-index:2;
+}
+
+.hero-eyebrow{
+  color:var(--gold);
+  font-family:var(--font-mono);
+  font-size:.72rem;
+  letter-spacing:.25em;
+  text-transform:uppercase;
+  margin-bottom:22px;
+}
+
+.hero-title{
+  color:var(--white);
+  font-family:var(--font-head);
+  font-size:clamp(3rem,5vw,5rem);
+  line-height:1.1;
+  margin-bottom:22px;
+}
+
+.hero-title em{
+  color:var(--gold);
+  font-style:italic;
+}
+
+.hero-sub{
+  color:rgba(255,255,255,.6);
+  max-width:520px;
+  line-height:1.9;
+  font-size:.95rem;
+}
+
+.hero-stats{
+  display:flex;
+  gap:50px;
+  margin-top:48px;
+  padding-top:36px;
+  border-top:1px solid rgba(255,255,255,.08);
+}
+
+.hero-stat-num{
+  color:white;
+  font-size:1.8rem;
+  font-family:var(--font-head);
+}
+
+.hero-stat-label{
+  color:rgba(255,255,255,.4);
+  font-size:.72rem;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+}
+
+/* =========================
+TOOLBAR
+========================= */
+
+.toolbar{
+  background:var(--cream);
+  border-bottom:1px solid var(--border);
+  position:sticky;
+  top:72px;
+  z-index:90;
+}
+
+.toolbar-inner{
+  max-width:1400px;
+  margin:auto;
+  padding:0 40px;
+  height:62px;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:24px;
+}
+
+.product-count{
+  font-size:.74rem;
+  color:var(--muted);
+  font-family:var(--font-mono);
+}
+
+.product-count span{
+  color:black;
+}
+
+.filter-chips{
+  display:flex;
+  gap:10px;
+}
+
+.chip{
+  padding:7px 16px;
+  border-radius:100px;
+  border:1px solid var(--border);
+  background:white;
+  color:var(--muted);
+  font-size:.72rem;
+  letter-spacing:.08em;
+  transition:var(--transition);
+}
+
+.chip:hover{
+  border-color:black;
+  color:black;
+}
+
+.chip.active{
+  background:black;
+  color:white;
+}
+
+.sort-select{
+  border:1px solid var(--border);
+  padding:10px 16px;
+  border-radius:12px;
+  background:white;
+  font-family:var(--font-body);
+}
+
+/* =========================
+PRODUCT SECTION
+========================= */
+
+.products-section{
+  max-width:1400px;
+  margin:auto;
+  padding:50px 40px 80px;
+}
+
+.collection-banner{
+  background:var(--black);
+  border-radius:24px;
+  padding:44px;
+  margin-bottom:50px;
+  position:relative;
+  overflow:hidden;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:30px;
+}
+
+.collection-banner::after{
+  content:'WOMEN';
+  position:absolute;
+  right:-20px;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:8rem;
+  color:rgba(255,255,255,.04);
+  font-family:var(--font-head);
+  font-weight:700;
+}
+
+.banner-text h3{
+  color:white;
+  font-family:var(--font-head);
+  font-size:1.6rem;
+  margin-bottom:8px;
+}
+
+.banner-text p{
+  color:rgba(255,255,255,.5);
+}
+
+.banner-btn{
+  padding:14px 30px;
+  background:var(--gold);
+  border-radius:14px;
+  font-weight:600;
+  transition:var(--transition);
+}
+
+.banner-btn:hover{
+  background:var(--gold-light);
+}
+
+/* =========================
+GRID
+========================= */
+
+.product-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:28px;
+}
+
+.product-card{
+  border:1px solid var(--border);
+  border-radius:18px;
+  overflow:hidden;
+  background:white;
+  transition:var(--transition);
+}
+
+.product-card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 20px 50px rgba(0,0,0,.08);
+}
+
+.product-card-img{
+  aspect-ratio:3/4;
+  background:var(--cream);
+  position:relative;
+  overflow:hidden;
+}
+
+.product-card-img img{
+  height:100%;
+  object-fit:cover;
+  transition:transform .6s ease;
+}
+
+.product-card:hover .product-card-img img{
+  transform:scale(1.05);
+}
+
+.card-tag{
+  position:absolute;
+  top:14px;
+  left:14px;
+  padding:5px 12px;
+  border-radius:100px;
+  background:black;
+  color:white;
+  font-size:.62rem;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+
+.card-tag.gold{
+  background:var(--gold);
+  color:black;
+}
+
+.card-wish{
+  position:absolute;
+  top:14px;
+  right:14px;
+
+  width:38px;
+  height:38px;
+  border-radius:50%;
+
+  background:rgba(255,255,255,.92);
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  opacity:0;
+  transition:var(--transition);
+}
+
+.product-card:hover .card-wish{
+  opacity:1;
+}
+
+.product-card-body{
+  padding:18px;
+}
+
+.card-brand{
+  color:var(--muted);
+  font-size:.65rem;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  margin-bottom:6px;
+}
+
+.card-name{
+  font-family:var(--font-head);
+  font-size:1.05rem;
+  margin-bottom:6px;
+}
+
+.card-sub{
+  color:var(--muted);
+  font-size:.76rem;
+  margin-bottom:16px;
+}
+
+.card-footer{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.card-price{
+  font-family:var(--font-head);
+  font-size:1.15rem;
+  font-weight:700;
+}
+
+.card-rating{
+  display:flex;
+  align-items:center;
+  gap:5px;
+}
+
+.card-stars{
+  color:var(--gold);
+  font-size:.75rem;
+}
+
+.card-rating-num{
+  color:var(--muted);
+  font-size:.72rem;
+}
+
+/* =========================
+FOOTER
+========================= */
+
+footer{
+  background:var(--black);
+  color:white;
+  padding:70px 0 30px;
+}
+
+.footer-container{
+  max-width:1400px;
+  margin:auto;
+  padding:0 40px 40px;
+
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr 1fr;
+  gap:50px;
+
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.footer-brand p{
+  color:rgba(255,255,255,.45);
+  margin-top:12px;
+  line-height:1.8;
+}
+
+.footer-col h4{
+  margin-bottom:18px;
+  font-size:.75rem;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+}
+
+.footer-col a{
+  display:block;
+  margin-bottom:12px;
+  color:rgba(255,255,255,.55);
+}
+
+.footer-bottom{
+  max-width:1400px;
+  margin:auto;
+  padding:25px 40px 0;
+
+  display:flex;
+  justify-content:space-between;
+
+  color:rgba(255,255,255,.35);
+  font-size:.75rem;
+}
+
+/* =========================
+TOAST
+========================= */
+
+.toast{
+  position:fixed;
+  bottom:30px;
+  right:30px;
+
+  background:black;
+  color:white;
+
+  padding:14px 24px;
+  border-radius:14px;
+
+  transform:translateY(100px);
+  opacity:0;
+
+  transition:var(--transition);
+  z-index:999;
+}
+
+.toast.show{
+  transform:translateY(0);
+  opacity:1;
+}
+
+/* =========================
+RESPONSIVE
+========================= */
+
+@media(max-width:1100px){
+
+.product-grid{
+  grid-template-columns:repeat(3,1fr);
+}
+
+}
+
+@media(max-width:900px){
+
+.nav-menu{
+  display:none;
+}
+
+.product-grid{
+  grid-template-columns:repeat(2,1fr);
+}
+
+.footer-container{
+  grid-template-columns:1fr 1fr;
+}
+
+}
+
+@media(max-width:640px){
+
+.collection-hero{
+  padding:70px 20px 60px;
+}
+
+.toolbar-inner,
+.products-section,
+.footer-container,
+.footer-bottom{
+  padding-left:20px;
+  padding-right:20px;
+}
+
+.product-grid{
+  gap:14px;
+}
+
+.collection-banner{
+  padding:28px;
+  flex-direction:column;
+  align-items:flex-start;
+}
+
+.collection-banner::after{
+  font-size:5rem;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="toast" id="toast">
+  <span id="toastMsg">Done</span>
+</div>
+
+<!-- HEADER -->
+
+<header class="header">
+
+<div class="nav-container">
+
+<a href="/" class="logo">AESIVO</a>
+
+<nav class="nav-menu">
+<a href="/">Home</a>
+<a href="/collection">Collection</a>
+<a href="/men">Men</a>
+<a href="/women" class="active">Women</a>
+<a href="/about">About</a>
+<a href="/contact">Contact</a>
+</nav>
+
+<div class="nav-actions">
+<a href="/account">Account</a>
+<a href="/cart">
+Cart <span class="cart-count">0</span>
+</a>
+</div>
+
+</div>
+
+</header>
+
+
+<!-- HERO -->
+
+<section class="collection-hero">
+
+<div class="hero-inner">
+
+<div class="hero-eyebrow">
+Women's Collection · 2026
+</div>
+
+<h1 class="hero-title">
+Crafted for<br>
+<em>Modern Elegance</em>
+</h1>
+
+<p class="hero-sub">
+Luxury silhouettes and timeless essentials designed for confident modern women.
+</p>
+
+<div class="hero-stats">
+
+<div>
+<div class="hero-stat-num" id="statTotal">—</div>
+<div class="hero-stat-label">Styles Available</div>
+</div>
+
+<div>
+<div class="hero-stat-num">100%</div>
+<div class="hero-stat-label">Premium Fabric</div>
+</div>
+
+<div>
+<div class="hero-stat-num">7-Day</div>
+<div class="hero-stat-label">Easy Returns</div>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- TOOLBAR -->
+
+<div class="toolbar">
+
+<div class="toolbar-inner">
+
+<div style="display:flex;align-items:center;gap:20px;">
+
+<div class="product-count" id="productCount">
+Loading...
+</div>
+
+<div class="filter-chips">
+
+<button class="chip active" onclick="setSort('newest',this)">
+Newest
+</button>
+
+<button class="chip" onclick="setSort('price_asc',this)">
+Low–High
+</button>
+
+<button class="chip" onclick="setSort('price_desc',this)">
+High–Low
+</button>
+
+<button class="chip" onclick="setSort('rating',this)">
+Top Rated
+</button>
+
+</div>
+
+</div>
+
+<select
+class="sort-select"
+id="sortSelect"
+onchange="onSortChange(this.value)"
+>
+
+<option value="newest">Newest First</option>
+<option value="price_asc">Price Low–High</option>
+<option value="price_desc">Price High–Low</option>
+<option value="rating">Top Rated</option>
+
+</select>
+
+</div>
+
+</div>
+
+
+<!-- PRODUCTS -->
+
+<section class="products-section">
+
+<div class="collection-banner">
+
+<div class="banner-text">
+<h3>Exclusive Women's Luxury Collection</h3>
+<p>
+Use code
+<strong style="color:var(--gold);">
+AESIVO10
+</strong>
+for 10% off your first order
+</p>
+</div>
+
+<button
+class="banner-btn"
+onclick="showToast('Code copied ✓')"
+>
+Copy Code
+</button>
+
+</div>
+
+<div class="product-grid" id="productGrid">
+
+</div>
+
+</section>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+<div class="footer-container">
+
+<div class="footer-brand">
+
+<div class="logo">
+AESIVO
+</div>
+
+<p>
+Luxury fashion crafted for timeless modern elegance.
+</p>
+
+</div>
+
+<div class="footer-col">
+
+<h4>Company</h4>
+
+<a href="/about">About</a>
+<a href="/contact">Contact</a>
+<a href="/careers">Careers</a>
+
+</div>
+
+<div class="footer-col">
+
+<h4>Shop</h4>
+
+<a href="/men">Men</a>
+<a href="/women">Women</a>
+<a href="/collection">All Products</a>
+
+</div>
+
+<div class="footer-col">
+
+<h4>Support</h4>
+
+<a href="/shipping">Shipping</a>
+<a href="/returns">Returns</a>
+<a href="/privacy">Privacy</a>
+
+</div>
+
+</div>
+
+<div class="footer-bottom">
+
+<span>
+© 2026 AESIVO Luxury Pvt. Ltd.
+</span>
+
+<span>
+Designed for modern elegance.
+</span>
+
+</div>
+
+</footer>
+
+
+<script>
+
+/* =========================
+CONFIG
+========================= */
+
+const BASE_URL = '/api/products';
+const CATEGORY = 'women';
+const PAGE_SIZE = 12;
+
+let currentSort = 'newest';
+let currentOffset = 0;
+let totalProducts = 0;
+
+
+/* =========================
+TOAST
+========================= */
+
+function showToast(msg){
+
+  const t = document.getElementById('toast');
+
+  document.getElementById('toastMsg').innerText = msg;
+
+  t.classList.add('show');
+
+  setTimeout(()=>{
+    t.classList.remove('show');
+  },2500);
+
+}
+
+
+/* =========================
+HELPERS
+========================= */
+
+function formatPrice(p){
+
+  return '₹' + Number(p).toLocaleString('en-IN');
+
+}
+
+function starsFromRating(r){
+
+  let s = '';
+
+  for(let i=1;i<=5;i++){
+
+    s += i <= Math.round(r)
+    ? '★'
+    : '☆';
+
+  }
+
+  return s;
+
+}
+
+
+/* =========================
+SORT
+========================= */
+
+function setSort(v,btn){
+
+  currentSort = v;
+
+  document
+    .querySelectorAll('.chip')
+    .forEach(c=>c.classList.remove('active'));
+
+  btn.classList.add('active');
+
+  document.getElementById('sortSelect').value = v;
+
+  fetchProducts();
+
+}
+
+function onSortChange(v){
+
+  currentSort = v;
+
+  fetchProducts();
+
+}
+
+
+/* =========================
+FETCH PRODUCTS
+========================= */
+
+async function fetchProducts(){
+
+  try{
+
+    const res = await fetch(
+      `${BASE_URL}/category/${CATEGORY}?sort=${currentSort}`
+    );
+
+    const data = await res.json();
+
+    totalProducts = data.total || 0;
+
+    renderProducts(data.products || []);
+
+    document.getElementById('productCount').innerHTML =
+      `<span>${totalProducts}</span> styles in Women's Collection`;
+
+    document.getElementById('statTotal').innerText =
+      totalProducts;
+
+  }catch(err){
+
+    console.log(err);
+
+  }
+
+}
+
+
+/* =========================
+RENDER
+========================= */
+
+function renderProducts(products){
+
+  const grid =
+    document.getElementById('productGrid');
+
+  grid.innerHTML = '';
+
+  if(!products.length){
+
+    grid.innerHTML = `
+      <h2>No products found</h2>
+    `;
+
+    return;
+
+  }
+
+  products.forEach(p=>{
+
+    grid.innerHTML += `
+
+      <a
+      href="/product?id=${p.id}"
+      class="product-card"
+      >
+
+      <div class="product-card-img">
+
+        <img
+        src="${p.image || '/static/images/placeholder.jpg'}"
+        >
+
+        ${p.tag
+          ? `<div class="card-tag gold">${p.tag}</div>`
+          : ''
+        }
+
+        <div
+        class="card-wish"
+        onclick="event.preventDefault();showToast('Added to wishlist ♥')"
+        >
+
+        ♥
+
+        </div>
+
+      </div>
+
+      <div class="product-card-body">
+
+        <div class="card-brand">
+          ${p.brand || 'AESIVO'}
+        </div>
+
+        <div class="card-name">
+          ${p.name}
+        </div>
+
+        <div class="card-sub">
+          ${p.category || 'Luxury Fashion'}
+        </div>
+
+        <div class="card-footer">
+
+          <div class="card-price">
+            ${formatPrice(p.price)}
+          </div>
+
+          <div class="card-rating">
+
+            <span class="card-stars">
+              ${starsFromRating(p.rating || 4.8)}
+            </span>
+
+            <span class="card-rating-num">
+              ${(p.rating || 4.8).toFixed(1)}
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      </a>
+
+    `;
+
+  });
+
+}
+
+
+/* =========================
+INIT
+========================= */
+
+fetchProducts();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>AESIVO | Contact</title>
+
+<link rel="stylesheet" href="/static/css/style.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header class="header">
+<div class="nav-container">
+
+<div class="logo">AESIVO</div>
+
+<nav class="nav-menu">
+<a href="/">Home</a>
+<a href="/collection">Collection</a>
+<a href="/men">Men</a>
+<a href="/women">Women</a>
+<a href="/about">About</a>
+<a href="/contact">Contact</a>
+</nav>
+
+<div class="nav-actions">
+<a href="/account">Account</a>
+<a href="/cart">Cart</a>
+</div>
+
+</div>
+</header>
+
+
+<!-- CONTACT SECTION -->
+<section class="contact-container">
+
+  <!-- LEFT SIDE -->
+  <div class="contact-info">
+    <h1>Contact Us</h1>
+
+    <h3>Get in Touch</h3>
+    <p>Have questions or feedback?<br>We’d love to hear from you.</p>
+
+    <p><strong>Email:</strong> support@aesivo.com</p>
+    <p><strong>Location:</strong> India</p>
+  </div>
+
+
+  <!-- RIGHT SIDE -->
+  <div class="contact-form">
+
+    <h2>Send Message</h2>
+
+    <form onsubmit="sendMessage(event)">
+
+      <!-- CATEGORY -->
+      <select id="category" class="input">
+        <option value="general">General</option>
+        <option value="support">Support</option>
+        <option value="feedback">Feedback</option>
+        <option value="business">Business Inquiry</option>
+      </select>
+
+      <!-- NAME + EMAIL -->
+      <div class="row">
+        <input type="text" id="name" placeholder="Your Name" class="input">
+        <input type="email" id="email" placeholder="Your Email" class="input">
+      </div>
+
+      <!-- MESSAGE -->
+      <textarea id="message" placeholder="Your Message" class="input textarea"></textarea>
+
+      <!-- BUTTON -->
+      <button id="sendBtn" class="btn">Send Message</button>
+
+      <!-- STATUS -->
+      <p id="formStatus" class="status"></p>
+
+    </form>
+
+  </div>
+
+</section>
+
+
+<!-- FOOTER -->
+<footer>
+
+<div class="footer-container">
+
+<div>
+<h3>Company</h3>
+<a href="/about">About</a>
+<a href="/contact">Contact</a>
+</div>
+
+<div>
+<h3>Account</h3>
+<a href="/account">My Account</a>
+<a href="/orders">Orders</a>
+<a href="/cart">Cart</a>
+</div>
+
+</div>
+
+<p class="copyright">© 2026 AESIVO. All rights reserved.</p>
+
+</footer>
+
+
+<!-- JS -->
+<script>
+
+async function sendMessage(e) {
+  e.preventDefault();
+
+  const btn = document.getElementById("sendBtn");
+  const status = document.getElementById("formStatus");
+
+  const name = document.getElementById("name").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const message = document.getElementById("message").value.trim();
+  const category = document.getElementById("category").value;
+
+  // VALIDATION
+  if (!name || !email || !message) {
+    status.style.color = "red";
+    status.innerText = "All fields are required";
+    return;
+  }
+
+  if (!email.includes("@")) {
+    status.style.color = "red";
+    status.innerText = "Invalid email address";
+    return;
+  }
+
+  // LOADING
+  btn.innerText = "Sending...";
+  btn.disabled = true;
+  status.innerText = "";
+
+  try {
+    const res = await fetch("/api/contact/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        name,
+        email,
+        message,
+        category
+      })
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      status.style.color = "green";
+      status.innerText = "Message sent successfully!";
+      document.querySelector("form").reset();
+    } else {
+      status.style.color = "red";
+      status.innerText = data.error || "Something went wrong";
+    }
+
+  } catch (err) {
+    status.style.color = "red";
+    status.innerText = "Server error";
+  }
+
+  btn.innerText = "Send Message";
+  btn.disabled = false;
+}
+
+</script>
+
+</body>
+</html>

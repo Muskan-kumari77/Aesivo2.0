@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AESIVO | Men's Collection</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+
+/* ─── VARIABLES ──────────────────────────────── */
+:root {
+  --black:      #0a0a0a;
+  --white:      #ffffff;
+  --cream:      #f5f0ea;
+  --warm:       #e8e0d4;
+  --gold:       #c9a84c;
+  --gold-lt:    #e8c97a;
+  --muted:      #6b6560;
+  --border:     #ddd8d0;
+  --green:      #2d7a4f;
+  --font-head:  'Playfair Display', Georgia, serif;
+  --font-body:  'Poppins', sans-serif;
+  --font-mono:  'DM Mono', monospace;
+  --radius:     12px;
+  --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-body); background: var(--white); color: var(--black); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+a { text-decoration: none; color: inherit; }
+img { max-width: 100%; display: block; }
+button { cursor: pointer; font-family: var(--font-body); border: none; outline: none; }
+
+/* ─── HEADER ─────────────────────────────────── */
+.header { position: sticky; top: 0; z-index: 100; background: var(--black); border-bottom: 1px solid rgba(255,255,255,0.08); }
+.nav-container { max-width: 1400px; margin: 0 auto; padding: 0 40px; height: 70px; display: flex; align-items: center; justify-content: space-between; }
+.logo { font-family: var(--font-head); font-size: 1.6rem; font-weight: 600; letter-spacing: 0.12em; color: var(--white); }
+.nav-menu { display: flex; gap: 36px; }
+.nav-menu a { color: rgba(255,255,255,0.65); font-size: 0.8rem; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; transition: color var(--transition); }
+.nav-menu a:hover, .nav-menu a.active { color: var(--white); }
+.nav-menu a.active { color: var(--gold); }
+.nav-actions { display: flex; align-items: center; gap: 24px; }
+.nav-actions a { color: rgba(255,255,255,0.65); font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; transition: color var(--transition); }
+.nav-actions a:hover { color: var(--white); }
+.cart-icon { display: flex; align-items: center; gap: 6px; }
+.cart-count { background: var(--gold); color: var(--black); font-size: 0.65rem; font-weight: 600; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+
+/* ─── HERO ───────────────────────────────────── */
+.collection-hero {
+  background: var(--black);
+  padding: 100px 40px 80px;
+  position: relative;
+  overflow: hidden;
+}
+.collection-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 70% 50%, rgba(201,168,76,0.08) 0%, transparent 65%);
+  pointer-events: none;
+}
+.hero-inner { max-width: 1400px; margin: 0 auto; position: relative; z-index: 1; }
+.hero-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.hero-eyebrow::after { content: ''; flex: 0 0 40px; height: 1px; background: var(--gold); opacity: 0.5; }
+.hero-title { font-family: var(--font-head); font-size: clamp(2.8rem, 5vw, 4.5rem); font-weight: 600; color: var(--white); line-height: 1.1; margin-bottom: 20px; }
+.hero-title em { font-style: italic; color: var(--gold); }
+.hero-sub { font-size: 0.95rem; color: rgba(255,255,255,0.5); max-width: 480px; line-height: 1.8; }
+.hero-stats {
+  display: flex;
+  gap: 48px;
+  margin-top: 48px;
+  padding-top: 40px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+.hero-stat-num { font-family: var(--font-head); font-size: 1.8rem; font-weight: 600; color: var(--white); }
+.hero-stat-label { font-size: 0.72rem; color: rgba(255,255,255,0.4); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2px; }
+
+/* ─── TOOLBAR ────────────────────────────────── */
+.toolbar {
+  background: var(--cream);
+  border-bottom: 1px solid var(--border);
+  padding: 0;
+  position: sticky;
+  top: 70px;
+  z-index: 90;
+}
+.toolbar-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+  height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+.toolbar-left { display: flex; align-items: center; gap: 20px; }
+.product-count {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+.product-count span { color: var(--black); font-weight: 500; }
+.toolbar-divider { width: 1px; height: 20px; background: var(--border); }
+
+/* Filter chips */
+.filter-chips { display: flex; gap: 8px; }
+.chip {
+  padding: 5px 14px;
+  border-radius: 100px;
+  border: 1.5px solid var(--border);
+  background: var(--white);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all var(--transition);
+  white-space: nowrap;
+}
+.chip:hover { border-color: var(--black); color: var(--black); }
+.chip.active { background: var(--black); border-color: var(--black); color: var(--white); }
+
+/* Sort */
+.sort-wrap { display: flex; align-items: center; gap: 10px; }
+.sort-label { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; }
+.sort-select {
+  appearance: none;
+  padding: 7px 32px 7px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--white) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b6560' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 10px center;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  color: var(--black);
+  cursor: pointer;
+  transition: border-color var(--transition);
+  min-width: 160px;
+}
+.sort-select:focus { outline: none; border-color: var(--black); }
+
+/* ─── PRODUCTS SECTION ───────────────────────── */
+.products-section { max-width: 1400px; margin: 0 auto; padding: 48px 40px 80px; }
+
+/* Grid */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 28px;
+}
+
+/* Product Card */
+.product-card {
+  display: block;
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--white);
+  border: 1px solid var(--border);
+  transition: all var(--transition);
+  text-decoration: none;
+  color: inherit;
+  animation: fadeUp 0.4s ease both;
+}
+.product-card:hover { border-color: rgba(0,0,0,0.2); transform: translateY(-4px); box-shadow: 0 16px 48px rgba(0,0,0,0.1); }
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
+.product-card-img {
+  aspect-ratio: 3/4;
+  background: var(--cream);
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.product-card-img img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 0.6s ease;
+}
+.product-card:hover .product-card-img img { transform: scale(1.05); }
+
+/* Placeholder icon when no image */
+.img-placeholder {
+  width: 48px; height: 48px; opacity: 0.2;
+}
+
+/* Tag */
+.card-tag {
+  position: absolute;
+  top: 14px; left: 14px;
+  background: var(--black);
+  color: var(--white);
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 100px;
+  font-weight: 500;
+}
+.card-tag.gold { background: var(--gold); color: var(--black); }
+
+/* Wishlist quick-action */
+.card-wish {
+  position: absolute;
+  top: 14px; right: 14px;
+  width: 36px; height: 36px;
+  background: rgba(255,255,255,0.92);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0;
+  transform: scale(0.85);
+  transition: all var(--transition);
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.product-card:hover .card-wish { opacity: 1; transform: scale(1); }
+.card-wish svg { width: 16px; height: 16px; }
+
+/* Card body */
+.product-card-body { padding: 16px 18px 20px; }
+.card-brand { font-size: 0.65rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 5px; }
+.card-name { font-family: var(--font-head); font-size: 1rem; font-weight: 600; color: var(--black); margin-bottom: 4px; line-height: 1.3; }
+.card-sub { font-size: 0.72rem; color: var(--muted); margin-bottom: 14px; }
+.card-footer { display: flex; align-items: center; justify-content: space-between; }
+.card-price { font-family: var(--font-head); font-size: 1.1rem; font-weight: 700; color: var(--black); }
+.card-rating { display: flex; align-items: center; gap: 4px; }
+.card-stars { color: var(--gold); font-size: 0.72rem; letter-spacing: 1px; }
+.card-rating-num { font-size: 0.7rem; color: var(--muted); }
+
+/* Quick add */
+.card-quick-add {
+  display: none;
+  width: 36px; height: 36px;
+  background: var(--black);
+  border-radius: 50%;
+  align-items: center; justify-content: center;
+  transition: all var(--transition);
+  flex-shrink: 0;
+}
+.product-card:hover .card-quick-add { display: flex; }
+.card-quick-add:hover { background: var(--gold); }
+.card-quick-add svg { width: 16px; height: 16px; stroke: var(--white); }
+
+/* ─── SHIMMER SKELETONS ───────────────────────── */
+.skeleton-card { border-radius: 16px; overflow: hidden; border: 1px solid var(--border); }
+.skeleton-img { aspect-ratio: 3/4; }
+.skeleton-body { padding: 16px 18px 20px; display: flex; flex-direction: column; gap: 8px; }
+.sk { border-radius: 6px; background: linear-gradient(90deg, #f0ebe4 25%, #e8e0d4 50%, #f0ebe4 75%); background-size: 200% 100%; animation: shimmer 1.4s infinite; }
+@keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+.sk-img { width: 100%; height: 100%; }
+.sk-line { height: 0.75rem; }
+.sk-title { height: 1rem; width: 75%; }
+.sk-price { height: 1rem; width: 40%; }
+
+/* ─── EMPTY / ERROR ──────────────────────────── */
+.state-box { grid-column: 1 / -1; text-align: center; padding: 80px 20px; }
+.state-box h3 { font-family: var(--font-head); font-size: 1.6rem; margin-bottom: 10px; color: var(--black); }
+.state-box p { color: var(--muted); font-size: 0.88rem; }
+
+/* ─── LOAD MORE ──────────────────────────────── */
+.load-more-wrap { text-align: center; margin-top: 56px; }
+.btn-load-more {
+  padding: 14px 40px;
+  border: 1.5px solid var(--black);
+  border-radius: var(--radius);
+  background: transparent;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--black);
+  transition: all var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.btn-load-more:hover { background: var(--black); color: var(--white); }
+.btn-load-more:disabled { opacity: 0.35; cursor: not-allowed; }
+.load-progress { font-size: 0.72rem; color: var(--muted); margin-top: 14px; font-family: var(--font-mono); letter-spacing: 0.06em; }
+
+/* ─── BANNER ─────────────────────────────────── */
+.collection-banner {
+  background: var(--black);
+  margin: 0 40px 48px;
+  border-radius: 20px;
+  padding: 40px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  overflow: hidden;
+  position: relative;
+}
+.collection-banner::after {
+  content: 'MEN';
+  position: absolute;
+  right: -20px; top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-head);
+  font-size: 8rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.04);
+  letter-spacing: 0.05em;
+  pointer-events: none;
+  line-height: 1;
+}
+.banner-text h3 { font-family: var(--font-head); font-size: 1.4rem; color: var(--white); margin-bottom: 6px; }
+.banner-text p { font-size: 0.82rem; color: rgba(255,255,255,0.5); }
+.banner-btn {
+  padding: 12px 28px;
+  background: var(--gold);
+  color: var(--black);
+  border-radius: var(--radius);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all var(--transition);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.banner-btn:hover { background: var(--gold-lt); }
+
+/* ─── FOOTER ─────────────────────────────────── */
+footer { background: var(--black); color: rgba(255,255,255,0.65); padding: 60px 0 30px; }
+.footer-container { max-width: 1400px; margin: 0 auto; padding: 0 40px; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; padding-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 24px; }
+.footer-brand .logo { font-family: var(--font-head); font-size: 1.4rem; letter-spacing: 0.1em; color: var(--white); margin-bottom: 12px; }
+.footer-brand p { font-size: 0.8rem; line-height: 1.7; color: rgba(255,255,255,0.4); }
+.footer-col h4 { font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--white); font-weight: 600; margin-bottom: 16px; }
+.footer-col a { display: block; font-size: 0.82rem; color: rgba(255,255,255,0.5); margin-bottom: 10px; transition: color var(--transition); }
+.footer-col a:hover { color: var(--white); }
+.footer-bottom { max-width: 1400px; margin: 0 auto; padding: 0 40px; display: flex; align-items: center; justify-content: space-between; font-size: 0.75rem; color: rgba(255,255,255,0.3); }
+.footer-bottom-links { display: flex; gap: 24px; }
+.footer-bottom-links a { color: rgba(255,255,255,0.3); transition: color var(--transition); }
+.footer-bottom-links a:hover { color: rgba(255,255,255,0.6); }
+
+/* ─── TOAST ──────────────────────────────────── */
+.toast { position: fixed; bottom: 30px; right: 30px; background: var(--black); color: var(--white); padding: 14px 24px; border-radius: 12px; font-size: 0.85rem; font-weight: 500; box-shadow: 0 8px 32px rgba(0,0,0,0.3); transform: translateY(80px); opacity: 0; transition: all 0.4s cubic-bezier(0.34,1.56,0.64,1); z-index: 999; display: flex; align-items: center; gap: 10px; }
+.toast.show { transform: translateY(0); opacity: 1; }
+.toast-icon { color: var(--gold); font-size: 1.1rem; }
+
+/* ─── RESPONSIVE ─────────────────────────────── */
+@media (max-width: 1200px) { .product-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 900px)  { .product-grid { grid-template-columns: repeat(2, 1fr); } .footer-container { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 640px)  {
+  .nav-menu { display: none; }
+  .collection-hero { padding: 64px 20px 48px; }
+  .toolbar-inner { padding: 0 20px; }
+  .filter-chips { display: none; }
+  .products-section { padding: 32px 20px 60px; }
+  .product-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .collection-banner { margin: 0 20px 32px; padding: 28px 24px; }
+  .footer-container { grid-template-columns: 1fr 1fr; gap: 32px; }
+  .hero-stats { gap: 28px; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <span class="toast-icon">✦</span>
+  <span id="toastMsg">Done!</span>
+</div>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="nav-container">
+    <a href="/" class="logo">AESIVO</a>
+    <nav class="nav-menu">
+      <a href="/">Home</a>
+      <a href="/collection">Collection</a>
+      <a href="/men" class="active">Men</a>
+      <a href="/women">Women</a>
+      <a href="/about">About</a>
+      <a href="/contact">Contact</a>
+    </nav>
+    <div class="nav-actions">
+      <a href="/account">Account</a>
+      <a href="/cart" class="cart-icon">Cart <span class="cart-count" id="cartCount">0</span></a>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="collection-hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Men's Collection · 2026</div>
+    <h1 class="hero-title">Dressed for<br><em>Every Chapter</em></h1>
+    <p class="hero-sub">Refined silhouettes and premium fabrics crafted for the man who moves with intention.</p>
+    <div class="hero-stats">
+      <div>
+        <div class="hero-stat-num" id="statTotal">—</div>
+        <div class="hero-stat-label">Styles Available</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">100%</div>
+        <div class="hero-stat-label">Premium Fabric</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">7-Day</div>
+        <div class="hero-stat-label">Easy Returns</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <div class="toolbar-inner">
+    <div class="toolbar-left">
+      <div class="product-count" id="productCount">Loading...</div>
+      <div class="toolbar-divider"></div>
+      <div class="filter-chips" id="filterChips">
+        <button class="chip active" onclick="setSort('newest', this)">Newest</button>
+        <button class="chip" onclick="setSort('price_asc', this)">Price: Low–High</button>
+        <button class="chip" onclick="setSort('price_desc', this)">Price: High–Low</button>
+        <button class="chip" onclick="setSort('rating', this)">Top Rated</button>
+      </div>
+    </div>
+    <div class="sort-wrap">
+      <span class="sort-label">Sort by</span>
+      <select class="sort-select" id="sortSelect" onchange="onSortChange(this.value)">
+        <option value="newest">Newest First</option>
+        <option value="price_asc">Price: Low to High</option>
+        <option value="price_desc">Price: High to Low</option>
+        <option value="rating">Top Rated</option>
+        <option value="name_asc">Name A–Z</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCTS -->
+<section class="products-section">
+
+  <!-- Banner -->
+  <div class="collection-banner">
+    <div class="banner-text">
+      <h3>Free Delivery on Orders above ₹999</h3>
+      <p>Use code <strong style="color:var(--gold);">AESIVO10</strong> for an extra 10% off your first order</p>
+    </div>
+    <button class="banner-btn" onclick="showToast('Code AESIVO10 copied! ✓')">Copy Code</button>
+  </div>
+
+  <!-- Grid -->
+  <div class="product-grid" id="productGrid">
+    <!-- Skeleton placeholders -->
+    <div class="skeleton-card"><div class="skeleton-img sk sk-img"></div><div class="skeleton-body"><div class="sk sk-line" style="width:40%"></div><div class="sk sk-title"></div><div class="sk sk-line" style="width:55%"></div><div class="sk sk-price"></div></div></div>
+    <div class="skeleton-card"><div class="skeleton-img sk sk-img"></div><div class="skeleton-body"><div class="sk sk-line" style="width:40%"></div><div class="sk sk-title"></div><div class="sk sk-line" style="width:55%"></div><div class="sk sk-price"></div></div></div>
+    <div class="skeleton-card"><div class="skeleton-img sk sk-img"></div><div class="skeleton-body"><div class="sk sk-line" style="width:40%"></div><div class="sk sk-title"></div><div class="sk sk-line" style="width:55%"></div><div class="sk sk-price"></div></div></div>
+    <div class="skeleton-card"><div class="skeleton-img sk sk-img"></div><div class="skeleton-body"><div class="sk sk-line" style="width:40%"></div><div class="sk sk-title"></div><div class="sk sk-line" style="width:55%"></div><div class="sk sk-price"></div></div></div>
+  </div>
+
+  <!-- Load More -->
+  <div class="load-more-wrap" id="loadMoreWrap" style="display:none;">
+    <button class="btn-load-more" id="loadMoreBtn" onclick="loadMore()">
+      Load More Styles
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+    </button>
+    <div class="load-progress" id="loadProgress"></div>
+  </div>
+
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-container">
+    <div class="footer-brand">
+      <div class="logo">AESIVO</div>
+      <p>Timeless luxury fashion for the modern individual. Crafted with care, delivered with precision.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <a href="/about">About Us</a>
+      <a href="/contact">Contact</a>
+      <a href="/careers">Careers</a>
+    </div>
+    <div class="footer-col">
+      <h4>Shop</h4>
+      <a href="/men">Men's Collection</a>
+      <a href="/women">Women's Collection</a>
+      <a href="/collection">All Products</a>
+    </div>
+    <div class="footer-col">
+      <h4>Support</h4>
+      <a href="/shipping">Shipping Policy</a>
+      <a href="/returns">Returns</a>
+      <a href="/privacy">Privacy Policy</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 AESIVO Luxury Pvt. Ltd. All rights reserved.</span>
+    <div class="footer-bottom-links">
+      <a href="/terms">Terms</a>
+      <a href="/privacy">Privacy</a>
+      <a href="/sitemap">Sitemap</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+
+/* ═══════════════════════
+   CONFIG
+   Change BASE_URL to match your Flask blueprint mount.
+═══════════════════════ */
+const BASE_URL = '/api/products';
+const CATEGORY  = 'men';          // ← this page's category
+const PAGE_SIZE = 12;
+
+/* ─── State ──── */
+let currentSort   = 'newest';
+let currentOffset = 0;
+let totalProducts = 0;
+let isLoading     = false;
+
+/* ─── Toast ─── */
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+/* ─── Helpers ─ */
+function formatPrice(p) {
+  if (!p && p !== 0) return '—';
+  return '₹' + Number(p).toLocaleString('en-IN');
+}
+
+function starsFromRating(r) {
+  const v = Math.round(parseFloat(r) * 2) / 2;
+  let s = '';
+  for (let i = 1; i <= 5; i++) s += i <= v ? '★' : '☆';
+  return s;
+}
+
+function parseFirstImage(raw) {
+  if (!raw) return '';
+  if (typeof raw === 'string') {
+    try {
+      const p = JSON.parse(raw);
+      if (Array.isArray(p)) return p[0] || '';
+      return typeof p === 'string' ? p : '';
+    } catch {
+      return raw.split(',')[0].trim();
+    }
+  }
+  if (Array.isArray(raw)) return raw[0] || '';
+  return '';
+}
+
+/* ─── Sort ─── */
+function setSort(value, btn) {
+  currentSort = value;
+  currentOffset = 0;
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  document.getElementById('sortSelect').value = value;
+  fetchProducts(true);
+}
+
+function onSortChange(value) {
+  currentSort = value;
+  currentOffset = 0;
+  // sync chips
+  document.querySelectorAll('.chip').forEach(c => {
+    c.classList.toggle('active', c.getAttribute('onclick')?.includes(`'${value}'`));
+  });
+  fetchProducts(true);
+}
+
+/* ─── Render Cards ─── */
+function renderCards(products, replace) {
+  const grid = document.getElementById('productGrid');
+  if (replace) grid.innerHTML = '';
+
+  if (!products || products.length === 0) {
+    if (replace) grid.innerHTML = `<div class="state-box"><h3>No styles found</h3><p>Check back soon — we're always adding new pieces.</p></div>`;
+    return;
+  }
+
+  const delay = replace ? 0 : currentOffset - products.length;
+
+  products.forEach((p, i) => {
+    const img  = parseFirstImage(p.images || p.image_urls || p.image);
+    const tag  = p.tag || '';
+    const imgEl = img
+      ? `<img src="${img}" alt="${p.name || ''}" loading="lazy" onerror="this.style.display='none'">`
+      : `<svg class="img-placeholder" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 10l5-5 5 5M24 5v22M14 16l-6 3v14h32V19l-6-3" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+    const card = document.createElement('a');
+    card.href = `/product?id=${p.id}`;
+    card.className = 'product-card';
+    card.style.animationDelay = `${(i % PAGE_SIZE) * 0.05}s`;
+    card.innerHTML = `
+      <div class="product-card-img">
+        ${imgEl}
+        ${tag ? `<div class="card-tag ${tag === 'New' || tag === 'New Arrival' ? 'gold' : ''}">${tag}</div>` : ''}
+        <div class="card-wish" onclick="event.preventDefault(); showToast('Added to wishlist ♥')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+        </div>
+      </div>
+      <div class="product-card-body">
+        <div class="card-brand">${p.brand || 'AESIVO'}</div>
+        <div class="card-name">${p.name || 'Product'}</div>
+        <div class="card-sub">${[p.material, p.fit_type].filter(Boolean).join(' · ') || (p.category || '')}</div>
+        <div class="card-footer">
+          <div class="card-price">${formatPrice(p.price)}</div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            ${p.rating ? `<div class="card-rating"><span class="card-stars">${starsFromRating(p.rating)}</span><span class="card-rating-num">${parseFloat(p.rating).toFixed(1)}</span></div>` : ''}
+            <div class="card-quick-add" onclick="event.preventDefault(); showToast('Added to cart ✓')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
+/* ─── Update Load More ─── */
+function updateLoadMore() {
+  const wrap = document.getElementById('loadMoreWrap');
+  const btn  = document.getElementById('loadMoreBtn');
+  const prog = document.getElementById('loadProgress');
+  const shown = Math.min(currentOffset, totalProducts);
+
+  if (shown >= totalProducts) {
+    wrap.style.display = 'none';
+  } else {
+    wrap.style.display = 'block';
+    btn.disabled = isLoading;
+    prog.textContent = `Showing ${shown} of ${totalProducts} styles`;
+  }
+}
+
+/* ─── Fetch ─── */
+async function fetchProducts(replace = false) {
+  if (isLoading) return;
+  isLoading = true;
+
+  if (replace) {
+    currentOffset = 0;
+    document.getElementById('productGrid').innerHTML = `
+      <div class="skeleton-card"><div class="skeleton-img sk sk-img"></div><div class="skeleton-body"><div class="sk sk-line" style="width:40%"></div><div class="sk sk-title"></div><div class="sk sk-line" style="width:55%"></div><div class="sk sk-price"></div></div></div>
+      <div class="skeleton-card"><div class="skeleton-img sk sk-img"></div><div class="skeleton-body"><div class="sk sk-line" style="width:40%"></div><div class="sk sk-title"></div><div class="sk sk-line" style="width:55%"></div><div class="sk sk-price"></div></div></div>
+      <div class="skeleton-card"><div class="skeleton-img sk sk-img"></div><div class="skeleton-body"><div class="sk sk-line" style="width:40%"></div><div class="sk sk-title"></div><div class="sk sk-line" style="width:55%"></div><div class="sk sk-price"></div></div></div>
+      <div class="skeleton-card"><div class="skeleton-img sk sk-img"></div><div class="skeleton-body"><div class="sk sk-line" style="width:40%"></div><div class="sk sk-title"></div><div class="sk sk-line" style="width:55%"></div><div class="sk sk-price"></div></div></div>`;
+    document.getElementById('loadMoreWrap').style.display = 'none';
+  }
+
+  try {
+    const url = `${BASE_URL}/category/${CATEGORY}?sort=${currentSort}&limit=${PAGE_SIZE}&offset=${currentOffset}`;
+    const res  = await fetch(url);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+
+    totalProducts = data.total || 0;
+    currentOffset += (data.products || []).length;
+
+    /* Update count */
+    document.getElementById('productCount').innerHTML =
+      `<span>${totalProducts}</span> styles in Men's Collection`;
+    document.getElementById('statTotal').textContent = totalProducts;
+
+    renderCards(data.products || [], replace);
+    updateLoadMore();
+  } catch (err) {
+    console.error('Failed to load products:', err);
+    document.getElementById('productGrid').innerHTML =
+      `<div class="state-box"><h3>Couldn't load products</h3><p>Please check your connection and try again.</p></div>`;
+  } finally {
+    isLoading = false;
+  }
+}
+
+function loadMore() {
+  fetchProducts(false);
+}
+
+/* ─── Init ─── */
+fetchProducts(true);
+
+</script>
+</body>
+</html>
