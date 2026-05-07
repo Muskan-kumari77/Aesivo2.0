@@ -1,7 +1,219 @@
-<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="database.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="1051"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><table title="contact" custom_title="0" dock_id="2" table="4,7:maincontact"/><dock_state state="000000ff00000000fd00000001000000020000000000000000fc0100000002fb000000160064006f0063006b00420072006f00770073006500310100000000ffffffff0000000000000000fb000000160064006f0063006b00420072006f00770073006500320100000000ffffffff0000011800ffffff000000000000000000000004000000040000000800000008fc00000000"/><default_encoding codec=""/><browse_table_settings/></tab_browse><tab_sql><sql name="SQL 1*">CREATE TABLE contact (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  name TEXT,
-  email TEXT,
-  message TEXT,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);</sql><current_tab id="0"/></tab_sql></sqlb_project>
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="database.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="1769"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><table title="contact" custom_title="0" dock_id="2" table="4,7:maincontact"/><dock_state state="000000ff00000000fd00000001000000020000000000000000fc0100000002fb000000160064006f0063006b00420072006f00770073006500310100000000ffffffff0000000000000000fb000000160064006f0063006b00420072006f00770073006500320100000000ffffffff0000011800ffffff000000000000000000000004000000040000000800000008fc00000000"/><default_encoding codec=""/><browse_table_settings/></tab_browse><tab_sql><sql name="SQL 11*">ALTER TABLE products
+ADD COLUMN tag TEXT;</sql><sql name="SQL 12*">UPDATE products
+SET tag='Best Seller'
+WHERE id=1;
+
+UPDATE products
+SET tag='Trending'
+WHERE id=2;
+
+UPDATE products
+SET tag='New Drop'
+WHERE id=3;</sql><sql name="SQL 13*">SELECT * FROM products;
+DELETE FROM products
+WHERE id NOT IN (
+
+    SELECT MIN(id)
+    FROM products
+    GROUP BY
+        name,
+        price,
+        description,
+        image
+
+);
+
+INSERT INTO products
+(name, price, description, image, category, stock, rating, tag)
+
+VALUES
+
+(
+'Luxury Black Shirt',
+2499,
+'Premium tailored black shirt crafted for modern elegance.',
+'/static/images/products/shirt-black.jpg',
+'men',
+20,
+4.8,
+'Best Seller'
+),
+
+(
+'Luxury White Shirt',
+2499,
+'Minimal premium white shirt with soft breathable fabric.',
+'/static/images/products/shirt-white.jpg',
+'men',
+18,
+4.7,
+'Trending'
+),
+
+(
+'Luxury Blue Shirt',
+2599,
+'Classic blue luxury shirt with refined stitching.',
+'/static/images/products/shirt-blue.jpg',
+'men',
+15,
+4.9,
+'New Drop'
+),
+
+(
+'Luxury Beige Shirt',
+2599,
+'Elegant beige shirt designed for timeless fashion.',
+'/static/images/products/shirt-beige.jpg',
+'men',
+16,
+4.7,
+'Premium'
+),
+
+(
+'Classic Black Jacket',
+4999,
+'Premium oversized black jacket with luxury finish.',
+'/static/images/products/jacket-black.jpg',
+'men',
+10,
+4.9,
+'Luxury'
+),
+
+(
+'Classic Brown Jacket',
+5299,
+'Modern brown jacket designed for premium layering.',
+'/static/images/products/jacket-brown.jpg',
+'men',
+8,
+4.8,
+'Trending'
+),
+
+(
+'Essential White T-Shirt',
+1499,
+'Minimal luxury white t-shirt with soft cotton feel.',
+'/static/images/products/tshirt-white.jpg',
+'men',
+25,
+4.6,
+'Everyday'
+),
+
+(
+'Essential Olive T-Shirt',
+1599,
+'Olive premium t-shirt crafted for comfort and style.',
+'/static/images/products/tshirt-olive.jpg',
+'men',
+20,
+4.7,
+'New'
+),
+
+(
+'Essential Beige T-Shirt',
+1599,
+'Beige luxury oversized t-shirt with modern fit.',
+'/static/images/products/tshirt-beige.jpg',
+'men',
+22,
+4.8,
+'Best Seller'
+);
+SELECT * FROM products
+WHERE category='men';
+DELETE FROM products
+WHERE category='women';
+INSERT INTO products
+(name, price, description, image, category, stock, rating, tag)
+
+VALUES
+
+(
+'Luxury Black Women Shirt',
+2699,
+'Premium black women shirt designed with elegant modern tailoring.',
+'/static/images/products/women-shirt-black.jpg',
+'women',
+18,
+4.8,
+'Best Seller'
+),
+
+(
+'Luxury White Women Shirt',
+2599,
+'Minimal white women shirt crafted for timeless luxury.',
+'/static/images/products/women-shirt-white.jpg',
+'women',
+20,
+4.7,
+'Trending'
+),
+
+(
+'Luxury Pink Women Shirt',
+2799,
+'Soft pink luxury women shirt with premium breathable fabric.',
+'/static/images/products/women-shirt-pink.jpg',
+'women',
+16,
+4.9,
+'New Drop'
+),
+
+(
+'Luxury Beige Women Shirt',
+2699,
+'Elegant beige women shirt inspired by modern luxury fashion.',
+'/static/images/products/women-shirt-beige.jpg',
+'women',
+15,
+4.8,
+'Premium'
+),
+
+(
+'Essential White Women T-Shirt',
+1599,
+'Minimal oversized white women t-shirt with soft cotton comfort.',
+'/static/images/products/women-tshirt-white.jpg',
+'women',
+25,
+4.7,
+'Everyday'
+),
+
+(
+'Essential Pink Women T-Shirt',
+1699,
+'Premium pink women t-shirt designed for elegant casual styling.',
+'/static/images/products/women-tshirt-pink.jpg',
+'women',
+22,
+4.8,
+'Trending'
+),
+
+(
+'Essential Lavender Women T-Shirt',
+1799,
+'Luxury lavender oversized women t-shirt with modern relaxed fit.',
+'/static/images/products/women-tshirt-lavender.jpg',
+'women',
+20,
+4.9,
+'Best Seller'
+);
+SELECT * FROM products
+WHERE category='women';
+DROP TABLE IF EXISTS cart;
+UPDATE products
+SET image='/static/images/tryon/black-shirt.png'
+WHERE id=1;</sql><current_tab id="2"/></tab_sql></sqlb_project>
