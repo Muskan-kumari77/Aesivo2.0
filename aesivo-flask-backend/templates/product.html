@@ -1423,45 +1423,40 @@ input.value = qty;
 /* =========================================
 ADD TO CART
 ========================================= */
-async function addToCart(){
 
-const qty =
-parseInt(
-document.getElementById("qtyInput").value
-);
+async function addToCart() {
 
-const cart =
-JSON.parse(localStorage.getItem("cart")) || [];
+    const qty = parseInt(document.getElementById("qtyInput").value);
 
-const existing =
-cart.find(
-item => item.product_id === parseInt(productId)
-);
+    const productIdNum = parseInt(productId);
 
-if(existing){
+    if (!productIdNum) {
+        alert("Invalid product");
+        return;
+    }
 
-existing.quantity += qty;
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-}else{
+    const existingItem = cart.find(
+        item => item.product_id === productIdNum
+    );
 
-cart.push({
+    if (existingItem) {
+        existingItem.quantity += qty;
+    } else {
+        cart.push({
+            product_id: productIdNum,
+            quantity: qty
+        });
+    }
 
-product_id: parseInt(productId),
-quantity: qty
+    localStorage.setItem("cart", JSON.stringify(cart));
 
-});
+    console.log("Cart saved:", cart);
 
-}
+    alert("Added to cart successfully");
 
-localStorage.setItem(
-"cart",
-JSON.stringify(cart)
-);
-
-alert("Added to cart");
-
-window.location.href = "/cart";
-
+    window.location.href = "/cart";
 }
 /* =========================================
 BUY NOW
@@ -1545,6 +1540,8 @@ alt="${p.name}"
 `).join('');
 
 }
+========================================= */
+
 
 /* =========================================
 INIT
