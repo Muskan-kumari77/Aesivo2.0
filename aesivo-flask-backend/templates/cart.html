@@ -652,15 +652,51 @@ localStorage.getItem("token");
 LOAD CART
 ========================================= */
 
-async function loadCart(){
+async function loadCart() {
 
-const container =
-document.getElementById(
-"cartItems"
-);
+    const container = document.getElementById("cartItems");
 
-if(!token){
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
 
+    if (cart.length === 0) {
+        container.innerHTML = `
+            <div class="empty-cart">
+                <h2>Your Cart Is Empty</h2>
+                <p>Discover premium fashion pieces from AESIVO luxury collections.</p>
+                <a href="/collection" class="shop-btn">Explore Collection</a>
+            </div>
+        `;
+
+        document.getElementById("subtotal").innerText = "₹0";
+        document.getElementById("total").innerText = "₹0";
+        return;
+    }
+
+    try {
+        const products = await res.json();
+
+        const items = cart.map(cartItem => {
+            const product = products.find(
+                p => parseInt(p.id) === parseInt(cartItem.product_id)
+            );
+
+            if (!product) return null;
+
+            return {
+                id: product.id,
+                name: product.name,
+                price: product.price,
+                image: product.image,
+                quantity: cartItem.quantity
+            };
+        }).filter(Boolean);
+
+        renderCart(items);
+
+    } catch (err) {
+        console.error("Cart load error:", err);
+    }
+}
 container.innerHTML = `
 
 <div class="empty-cart">
@@ -692,7 +728,7 @@ return;
 try{
 
 const res =
-await fetch("/api/cart/",{
+{
 
 headers:{
 "Authorization":
@@ -779,7 +815,7 @@ document.getElementById(
 try{
 
 const res =
-await fetch("/api/cart/",{
+{
 
 method:"POST",
 
@@ -936,51 +972,39 @@ document.getElementById(
 CHANGE QUANTITY
 ========================================= */
 
-async function changeQty(id,qty){
+function changeQty(id, qty) {
 
-if(qty < 1) return;
+    if (qty < 1) return;
 
-await fetch(
-`/api/cart/update/${id}`,{
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-method:"PUT",
+    cart = cart.map(item => {
+        if (parseInt(item.product_id) === parseInt(id)) {
+            item.quantity = qty;
+        }
+        return item;
+    });
 
-headers:{
-"Content-Type":"application/json",
-"Authorization":
-`Bearer ${token}`
-},
+    localStorage.setItem("cart", JSON.stringify(cart));
 
-body:JSON.stringify({
-quantity:qty
-})
-
-});
-
-loadCart();
-
+    loadCart();
 }
 
 /* =========================================
 REMOVE ITEM
 ========================================= */
 
-async function removeItem(id){
+function removeItem(id) {
 
-await fetch(
-`/api/cart/remove/${id}`,{
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-method:"DELETE",
+    cart = cart.filter(
+        item => parseInt(item.product_id) !== parseInt(id)
+    );
 
-headers:{
-"Authorization":
-`Bearer ${token}`
-}
+    localStorage.setItem("cart", JSON.stringify(cart));
 
-});
-
-loadCart();
-
+    loadCart();
 }
 
 /* =========================================
