@@ -1423,63 +1423,46 @@ input.value = qty;
 /* =========================================
 ADD TO CART
 ========================================= */
-
 async function addToCart(){
-
-const token =
-localStorage.getItem("token");
-
-if(!token){
-
-alert("Please login first");
-window.location.href = "/account";
-return;
-
-}
 
 const qty =
 parseInt(
-document.getElementById(
-"qtyInput"
-).value
+document.getElementById("qtyInput").value
 );
 
-try{
+const cart =
+JSON.parse(localStorage.getItem("cart")) || [];
 
-const res =
-await fetch("/api/cart/",{
+const existing =
+cart.find(
+item => item.product_id === parseInt(productId)
+);
 
-method:"POST",
+if(existing){
 
-headers:{
-"Content-Type":"application/json",
-"Authorization":`Bearer ${token}`
-},
+existing.quantity += qty;
 
-body:JSON.stringify({
+}else{
 
-product_id:productId,
-quantity:qty
+cart.push({
 
-})
+product_id: parseInt(productId),
+quantity: qty
 
 });
 
-const data =
-await res.json();
-
-alert(data.message || "Added to cart");
-
 }
 
-catch(err){
+localStorage.setItem(
+"cart",
+JSON.stringify(cart)
+);
 
-console.error(err);
+alert("Added to cart");
+
+window.location.href = "/cart";
 
 }
-
-}
-
 /* =========================================
 BUY NOW
 ========================================= */
@@ -1506,8 +1489,7 @@ async function loadRelatedProducts(){
 try{
 
 const res =
-await fetch(
-`${BASE_URL}/`
+awaitfetch(BASE_URL
 );
 
 const products =

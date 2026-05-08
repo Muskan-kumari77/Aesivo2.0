@@ -701,8 +701,8 @@ headers:{
 
 });
 
-const items =
-await res.json();
+const data = await res.json();
+const items = data.cart || data;
 
 if(!items.length){
 
@@ -753,7 +753,7 @@ console.error(err);
 }
 
 }
-async function addToCart(){
+{
 
 const token =
 localStorage.getItem("token");
@@ -853,7 +853,7 @@ return `
 <div class="cart-image">
 
 <img
-src="${item.image}"
+src="${item.image.startsWith('/') ? item.image : '/' + item.image}"
 alt="${item.name}"
 
 onerror="
